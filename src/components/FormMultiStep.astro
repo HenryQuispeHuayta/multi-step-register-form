@@ -1,0 +1,188 @@
+---
+
+---
+
+<form id="form">
+  <div class="step one">
+    <h1>Register</h1>
+    <label>
+      <span>Name</span>
+      <input type="text" name="name" placeholder="enter your name" required />
+    </label>
+    <label>
+      <span>Email</span>
+      <input
+        type="email"
+        name="email"
+        placeholder="example@gmail.com"
+        required
+      />
+    </label>
+    <button id="btn-continue-1">Continue</button>
+  </div>
+  <div class="step two">
+    <h1>Which topics you are interested in?</h1>
+    <label>
+      <input type="checkbox" name="topic" value="Software Development" />
+      <span class="topic">Software Development</span>
+    </label>
+    <label>
+      <input type="checkbox" name="topic" value="User Experience" />
+      <span class="topic">User Experience</span>
+    </label>
+    <label>
+      <input type="checkbox" name="topic" value="Graphic Design" />
+      <span class="topic">Graphic Design</span>
+    </label>
+    <button id="btn-continue-2">Continue</button>
+  </div>
+  <div class="step three">
+    <h1>Summary</h1>
+    <div id="summary"></div>
+    <button id="btn-confirm">Confirm</button>
+  </div>
+</form>
+
+<style>
+  form {
+    max-width: 450px;
+    background-color: var(--bg-form);
+    border-radius: 8px;
+    padding: 32px;
+  }
+  label {
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0 4px;
+    gap: 8px;
+  }
+  input {
+    width: 350px;
+    padding: 16px;
+    border-radius: 8px;
+    border: 2px solid #4d5562;
+    background-color: var(--bg-form);
+  }
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"]:checked + .topic {
+    background-color:var(--bg-button);
+    color: var(--text-color);
+  }
+  input[type="checkbox"] + .topic {
+    background-color: #4d5562;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 320px;
+  }
+  button {
+    padding: 16px 32px;
+    background-color: var(--bg-button);
+    color: var(--text-color);
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    width: 35%;
+    margin: 24px auto;
+  }
+  .step {
+    display: none;
+  }
+  .step.active {
+    display: flex;
+    flex-direction: column;
+  }
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+  span {
+    font-size: 0.75rem;
+    color: #a1a1a9;
+  }
+  div {
+    gap: 0.5rem;
+    width: 400px;
+  }
+  .result {
+    background-color: red;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("form");
+    const btn1 = document.getElementById("btn-continue-1");
+    const btn2 = document.getElementById("btn-continue-2");
+    const btnConfirm = document.getElementById("btn-confirm");
+
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault();
+    });
+
+    let formData = {
+      name: "",
+      email: "",
+      topics: [] as string[],
+    };
+
+    const steps = document.querySelectorAll(".step");
+    let currentStep = 0;
+
+    const showStep = (index: number) => {
+      steps.forEach((step, i) => {
+        if (i === index) {
+          step.classList.add("active");
+        } else {
+          step.classList.remove("active");
+        }
+      });
+    };
+
+    showStep(currentStep);
+
+    btn1?.addEventListener("click", () => {
+      formData.name = (
+        document.querySelector('input[name="name"]') as HTMLInputElement
+      ).value;
+      formData.email = (
+        document.querySelector('input[name="email"]') as HTMLInputElement
+      ).value;
+      currentStep++;
+      showStep(currentStep);
+    });
+
+    btn2?.addEventListener("click", () => {
+      formData.topics = Array.from(
+        document.querySelectorAll('input[name="topic"]:checked')
+      ).map((checkbox) => (checkbox as HTMLInputElement).value);
+      currentStep++;
+      showStep(currentStep);
+
+      displaySummary();
+    });
+
+    btnConfirm?.addEventListener("click", () => {
+      console.log(formData);
+    });
+
+    const displaySummary = () => {
+      const summaryElement = document.getElementById("summary") as HTMLElement;
+      summaryElement.innerHTML = `
+            <div>
+            <p style="margin: 0"><span style="color: #a1a1a9">Name</span>: ${formData.name}</p>
+            <p style="margin: 0"><span style="color: #a1a1a9">Email</span>: ${formData.email}</p>
+            </div>
+            <p style="color: #a1a1a9">Topics:</p>
+            <ul style="padding-left:28px">
+                ${formData.topics.map((topic) => `<li>${topic}</li>`).join("")}
+            </ul>
+        `;
+    };
+  });
+</script>

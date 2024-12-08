@@ -1,22 +1,48 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Multi-step Register Form</title>
+  </head>
+  <body>
+    <header></header>
+    <slot />
+    <footer></footer>
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  :root {
+    --bg-color: #121826;
+    --text-color: #e5e7eb;
+    --bg-form: #212936;
+    --bg-button: #652cd1;
+  }
+  body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    color: var(--text-color);
+    line-height: 1.5;
+    background-color: var(--bg-color);
+    background-image: url("/blur-radial.svg"), url("/blur-radial.svg");
+    background-position:
+      top left,
+      bottom right;
+    background-repeat: no-repeat;
+    background-size:
+      200% 200%,
+      200% 200%;
+  }
 </style>
